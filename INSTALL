@@ -1,0 +1,48 @@
+
+gacampda (GNU CAMPBELL Data Acquisition) 
+
+Is data acquisition software for CR1000 datalogger. This work from
+serial link or over TCP/IP.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or (at
+your option) any later version.
+  
+The author does NOT admit liability nor provide warranty for any of
+this software. This material is provided "AS-IS" in the hope that it
+may be useful for others.
+
+
+INSTALLATION:
+
+Download source code from:
+http://www.iar.unlp.edu.ar/~fede/pub/gcampda/
+
+Open the tarball and cd into gcampda directory 
+
+Now run:
+$ make
+or/and
+$ make TARGET=/usr/local install
+
+CONFIGURING:
+
+gcampda.conf is main configuration file; you put it in /etc, or
+specifier other name and location from command line (--config switch).
+
+For serial line: declare the "device" and not the "port".
+
+For TCP/IP: declare "host" and "port".
+
+
+The first time to run it initialize table definitions via --init switch:
+
+$ gcampda --init
+
+this put download configuration setup in data/STATION_NAME.conf were
+data is set in main configuration file (/etc/gcampda.conf
+normally). Now download data witch command:
+
+$ gcampda --download
+
