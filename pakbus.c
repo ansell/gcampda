@@ -910,45 +910,45 @@ static int pak_fprintf_table(GC_CONF *gc, CR_TDF *tdf, PAKBUS *pki,
 				tm_tstamp = gmtime( &tstamp);
 				strftime(str_tstamp, sizeof(str_tstamp),
 					 GC_TSTAMP_FMT(gc), tm_tstamp);
-				fprintf(stream, "%s ", str_tstamp);
+				fprintf(stream, "%s,", str_tstamp);
 			} else {
-				fprintf(stream, "%ld ", tstamp);
+				fprintf(stream, "%ld,", tstamp);
 			}
 			/* Record: */
 			/* 12/06/2013: Fortmat change from %5d to %10d */
-			fprintf(stream, "%10d ", record++);
+			fprintf(stream, "%10d,", record++);
 
 			for(field=CR_TDF_FIELD_LIST(tdf);
 			    field != NULL;field = CR_TDF_FIELD_NEXT(field)) {
 				if (CR_TDF_FIELD_DIM_ARRAY(field)[0] == 1 ) {
 					switch(CR_TDF_FIELD_TYPE(field)) {
 					case type_FP2:
-						fprintf(stream, "%8.2f ",
+						fprintf(stream, "%8.2f,",
 							pak_read_fp2(pki));
 						break;
 					case type_IEEE4:
-						fprintf(stream, "%8.3f ",
+						fprintf(stream, "%8.3f,",
 							pak_read_float(pki));
 						break;
 					case type_Int4:
-						fprintf(stream, "%8d ",
+						fprintf(stream, "%8d,",
 							pak_read_int(pki));
 						break;
 					case type_NSec:
 						dummy = pak_read_int(pki);
-						fprintf(stream, "%8d.%09d ",
+						fprintf(stream, "%8d.%09d,",
 							dummy, 
 							pak_read_int(pki));
 						break;
 					case type_Bool4:
 						dummy = pak_read_int(pki);
 						if(dummy > 0) 
-							fprintf(stream, "true ");
+							fprintf(stream, "true,");
 						else
-							fprintf(stream, "false ");
+							fprintf(stream, "false,");
 						break;
 					default:
-						fprintf(stream, "unknow_%02d ", 
+						fprintf(stream, "unknow_%02d,", 
 							CR_TDF_FIELD_TYPE(field));
 					}
 				}
@@ -979,9 +979,9 @@ void pak_fprintf_table_header(GC_CONF *gc, CR_TDF *tdf)
 	fprintf(fp, "# gcampda_version: %s\n", VERSION);
 	fprintf(fp, "#\n# Field definitions:\n");
 	if (GC_TSTAMP_FMT(gc) != NULL) {
-		fprintf(fp, "# Time_stamp [%s], Record", GC_TSTAMP_FMT(gc));
+		fprintf(fp, "Time_stamp [%s], Record", GC_TSTAMP_FMT(gc));
 	} else {
-		fprintf(fp, "# Time_stamp [Sec], Record");
+		fprintf(fp, "Time_stamp [Sec], Record");
 	}
 	while(f != NULL){
 		if ( CR_TDF_FIELD_DIM_ARRAY(f)[0] == 1) {
